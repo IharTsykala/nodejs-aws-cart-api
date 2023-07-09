@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "build": "nest build --builder webpack",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -18,7 +18,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "cdk:deploy": "cdk deploy --profile=IharTsykala23 --require-approval never"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.3",
@@ -28,13 +29,20 @@
     "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^10.0.3",
     "helmet": "^7.0.0",
+    "amqp-connection-manager": "^4.1.13",
+    "amqplib": "^0.10.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "passport": "^0.6.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
+    "knex": "^2.4.2",
+    "pg": "^8.11.0",
     "rxjs": "^7.8.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.3",
