@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 
 describe('AppController', () => {
-  let appController: AppController;
+  let appController: any;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
