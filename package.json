@@ -12,7 +12,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -20,7 +20,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "cdk:deploy": "cdk deploy --profile=IharTsykala23 --require-approval never",
-    "cdk:bootstrap": "cdk bootstrap"
+    "cdk:bootstrap": "cdk bootstrap",
+    "docker:build": "docker build -t rs-checkout-api .",
+    "docker:run": "docker run -p 3000:3000 rs-checkout-api"
   },
   "dependencies": {
     "@aws-cdk/aws-apigatewayv2-alpha": "^2.87.0-alpha.0",

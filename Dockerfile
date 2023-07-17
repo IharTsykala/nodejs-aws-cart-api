@@ -1,14 +1,41 @@
-FROM node:18-alpine3.17
+FROM node:18-alpine3.17 As development
 
-WORKDIR /aws_nodejs_cart_api
+WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY --chown=node:node package.json package-lock.json ./
 
 RUN npm install && npm cache clean --force
 
-COPY . .
+COPY --chown=node:node . .
 
-EXPOSE 4000
+USER node
 
-ENTRYPOINT [ "node", "dist/src/main.js" ]
+#########################################
+
+FROM node:18-alpine3.17 As build
+
+WORKDIR /app
+
+COPY --chown=node:node package.json package-lock.json ./
+
+COPY --chown=node:node --from=development /app/node_modules ./node_modules
+
+COPY --chown=node:node . .
+
+RUN npm run build
+
+ENV NODE_ENV production
+
+RUN npm ci --only=production && npm cache clean --force
+
+USER node
+
+##############################
+
+FROM node:18-alpine3.17 As production
+
+COPY --chown=node:node --from=build /app/node_modules ./node_modules
+COPY --chown=node:node --from=build /app/dist ./dist
+
+CMD [ "node", "dist/main.js" ]
 

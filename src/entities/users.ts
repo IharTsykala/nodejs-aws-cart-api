@@ -17,6 +17,6 @@ export class Users {
 
   @OneToMany(
     () => Orders,
-    order => order.user,
+    order => order,
   ) order=Orders
 }
