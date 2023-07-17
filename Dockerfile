@@ -1,6 +1,6 @@
 FROM node:18-alpine3.17
 
-WORKDIR /app
+WORKDIR /aws_nodejs_cart_api
 
 COPY package.json package-lock.json ./
 
