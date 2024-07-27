@@ -24,7 +24,7 @@ export class OrderService {
     return order;
   }
 
-  update(orderId, data) {
+  update(orderId: any, data: any) {
     const order = this.findById(orderId);
 
     if (!order) {

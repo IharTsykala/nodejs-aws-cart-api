@@ -19,7 +19,7 @@ export class CartService {
       items: [],
     };
 
-    this.userCarts[ userId ] = userCart;
+    this.userCarts[ userId ] = userCart as any;
 
     return userCart;
   }
@@ -31,7 +31,7 @@ export class CartService {
       return userCart;
     }
 
-    return this.createByUserId(userId);
+    return this.createByUserId(userId) as any;
   }
 
   updateByUserId(userId: string, { items }: Cart): Cart {
@@ -48,8 +48,8 @@ export class CartService {
     return { ...updatedCart };
   }
 
-  removeByUserId(userId): void {
-    this.userCarts[ userId ] = null;
+  removeByUserId(userId: any): void {
+    this.userCarts[ userId ] = null as any;
   }
 
 }
