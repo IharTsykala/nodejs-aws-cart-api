@@ -36,3 +36,16 @@ lerna-debug.log*
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+*.js
+*.d.ts
+
+.idea
+.vscode
+.env
+
+node_modules/
+cdk/node_modules/
+
+.cdk.staging
+cdk.out/

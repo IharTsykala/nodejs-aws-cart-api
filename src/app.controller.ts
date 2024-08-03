@@ -16,7 +16,7 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('api/auth/login')
-  async login(@Request() req) {
+  async login(@Request() req: any) {
     const token = this.authService.login(req.user, 'basic');
 
     return  {
@@ -30,7 +30,7 @@ export class AppController {
 
   @UseGuards(BasicAuthGuard)
   @Get('api/profile')
-  async getProfile(@Request() req) {
+  async getProfile(@Request() req: any) {
     return {
       statusCode: HttpStatus.OK,
       message: 'OK',

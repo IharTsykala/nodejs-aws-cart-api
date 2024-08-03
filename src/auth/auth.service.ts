@@ -21,12 +21,13 @@ export class AuthService {
     return this.usersService.createOne({ name, password })
   }
 
-  login(user: User, type) {
+  login(user: User, type: string = "default") {
     const LOGIN_MAP = {
       jwt: this.loginJWT,
       basic: this.loginBasic,
       default: this.loginJWT,
     }
+    // @ts-ignore
     const login = LOGIN_MAP[ type ]
 
     return login ? login(user) : LOGIN_MAP.default(user);
@@ -45,7 +46,7 @@ export class AuthService {
     // const payload = { username: user.name, sub: user.id };
     console.log(user);
 
-    function encodeUserToken(user) {
+    function encodeUserToken(user: any) {
       const { id, name, password } = user;
       const buf = Buffer.from([name, password].join(':'), 'utf8');
 
