@@ -1,44 +1,40 @@
 import { NestFactory } from '@nestjs/core';
+
+import { Callback, Context, Handler } from 'aws-lambda';
+
+import serverlessExpress from '@vendia/serverless-express';
+import helmet from 'helmet';
+
 import { AppModule } from './app.module';
-import { Context, APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import express from 'express';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import { Server } from 'http';
 
-const expressApp = express();
+const port = process.env.PORT || 4000;
 
-const createNestServer = async (expressInstance: any) => {
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(expressInstance));
-  await app.init();
-  return app.getHttpAdapter().getInstance();
-};
+let server: Handler;
 
-let cachedServer: Server;
+async function bootstrap(): Promise<Handler> {
+  const app = await NestFactory.create(AppModule);
 
-const bootstrapServer = async (): Promise<Server> => {
-  if (!cachedServer) {
-    cachedServer = await createNestServer(expressApp);
-  }
-  return cachedServer;
-};
-
-export const handler = async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
-  const server = await bootstrapServer();
-
-  return new Promise<APIGatewayProxyResult>((resolve, reject) => {
-    const requestHandler = (error: any, response: any) => {
-      if (error) {
-        reject(error);
-      } else {
-        const result: APIGatewayProxyResult = {
-          statusCode: response.statusCode,
-          headers: response.headers,
-          body: response.body,
-        };
-        resolve(result);
-      }
-    };
-
-    server.emit('request', event, context, requestHandler);
+  app.enableCors({
+    origin: (req, callback) => callback(null, true),
   });
+  app.use(helmet());
+
+  await app.init();
+
+  const expressApp = app.getHttpAdapter().getInstance();
+  return serverlessExpress({ app: expressApp });
+}
+bootstrap().then(() => {
+  console.log('App is running on %s port', port);
+});
+
+export const handler: Handler = async (
+    event: any,
+    context: Context,
+    callback: Callback,
+) => {
+  server = server ?? (await bootstrap());
+
+  return server(event, context, callback);
 };
+
