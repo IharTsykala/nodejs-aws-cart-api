@@ -19,6 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "docker:build": "docker build -t my-cart-service .",
+    "docker:run": "docker run -p 4000:4000 my-cart-service",
     "clean:cdk": "rm -rf cdk/cdk.out",
     "bootstrap": "cdk bootstrap aws://851725512813/eu-central-1",
     "cdk-synth": "cd cdk && cdk synth",

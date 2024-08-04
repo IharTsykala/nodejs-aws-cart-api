@@ -1,13 +1,25 @@
-FROM node:18-alpine3.17
+# Stage 1: Build the application
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-
-RUN npm install && npm cache clean --force
+RUN npm install
 
 COPY . .
 
+RUN npm run build
+
+# Stage 2: Create the final image
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm install --only=production
+
+COPY --from=builder /app/dist ./dist
+
 EXPOSE 4000
 
-ENTRYPOINT [ "node", "dist/src/main.js" ]
+CMD ["node", "dist/main.js"]
