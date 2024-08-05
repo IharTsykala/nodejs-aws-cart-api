@@ -25,7 +25,12 @@
     "bootstrap": "cdk bootstrap aws://851725512813/eu-central-1",
     "cdk-synth": "cd cdk && cdk synth",
     "cdk-deploy": "cd cdk && cdk deploy",
-    "cdk-destroy": "cd cdk && cdk destroy"
+    "cdk-destroy": "cd cdk && cdk destroy",
+    "eb-status": "eb status",
+    "eb:init": "eb init IharTsykala-cart-api3 --platform docker --region eu-central-1",
+    "eb:create": "eb create prod --cname ihartsykala-cart-api-prod",
+    "eb:deploy": "eb deploy develop",
+    "eb:destroy": "eb terminate --all"
   },
   "dependencies": {
     "@aws-cdk/aws-apigateway": "^1.204.0",
@@ -76,6 +81,7 @@
     "@typescript-eslint/parser": "5.60.0",
     "aws-cdk-lib": "^2.150.0",
     "constructs": "^10.3.0",
+    "env-cmd": "^10.1.0",
     "esbuild": "^0.23.0",
     "eslint": "8.43.0",
     "eslint-config-prettier": "^8.8.0",
