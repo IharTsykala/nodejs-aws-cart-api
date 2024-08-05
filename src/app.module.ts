@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { OrderModule } from './order/order.module';
 import { Cart } from "./cart/entities/cart.entity";
 import { CartItem } from "./cart/entities/cart-item.entity";
+import {DatabaseConnectionCheckService} from "./database-connection-check.service";
 
 @Module({
   imports: [
@@ -33,7 +34,7 @@ import { CartItem } from "./cart/entities/cart-item.entity";
   controllers: [
     AppController,
   ],
-  providers: [],
+  providers: [DatabaseConnectionCheckService],
 })
 
 export class AppModule {
